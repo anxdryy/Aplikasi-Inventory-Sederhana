@@ -1,66 +1,57 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Aplikasi Inventory Sederhana (Test CV Citra Baru Busana)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem informasi manajemen inventory gudang sederhana dengan fitur Web UI dan REST API, dibangun menggunakan Laravel 10.
 
-## About Laravel
+## Fitur yang Tersedia
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Requirement Wajib:**
+- **CRUD Produk:** Mengelola kode produk, nama, satuan, stok, dan harga.
+- **Input Transaksi Stok:** Mencatat barang masuk dan keluar.
+- **Validasi Stok Minus:** Transaksi "keluar" otomatis ditolak jika jumlah melebihi stok yang tersedia (Menerapkan `DB::beginTransaction` & `lockForUpdate` untuk mencegah *race condition*).
+- **Pencarian Data:** Mencari produk berdasarkan kode atau nama.
+- **REST API:** Endpoint API JSON konsisten untuk melihat produk, menambah produk, dan input transaksi.
+- **Git Commit:** Riwayat pengerjaan di-commit secara bertahap.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Requirement Opsional (Bonus Tambahan):**
+- **Laporan Stok Menipis:** Peringatan UI otomatis jika ada produk dengan stok <= 10.
+- **Histori Transaksi per Produk:** Melihat riwayat masuk/keluarnya barang secara spesifik pada masing-masing produk.
+- **Automated Feature Test:** Unit Test untuk memvalidasi penolakan sistem terhadap input stok minus.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Cara Instalasi & Menjalankan Project
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini di komputer lokal Anda (Localhost):
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. **Clone repository ini** ke dalam folder lokal mesin Anda:
+   git clone https://github.com/anxdryy/Aplikasi-Inventory-Sederhana.git
+   cd Aplikasi-Inventory-Sederhana
+2. Install semua dependencies menggunakan Composer:
+   composer install
+3. Buat Model, Migration, & Controller
+  Jalankan perintah ini sekaligus di terminal:
+    php artisan make:model Product -mcr
+    php artisan make:model Transaction -mcr
+    php artisan make:controller Api/ProductApiController
+    php artisan make:controller Api/TransactionApiController
+4. Setup Environment Variables:
+   cp .env.example .env
+   php artisan key:generate
+5. Setup Database (MySQL/MariaDB):
+   Buat database baru di MySQL Anda (misalnya dengan nama: inventory_db).
+    Env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=inventory_db
+    DB_USERNAME=root
+    DB_PASSWORD=
+6. Jalankan Migrasi & Seeder (Wajib):
+   php artisan migrate:fresh --seed
+7. Jalankan Local Development Server:
+   php artisan serve
+8. Buat file Test di Terminal
+   php artisan make:test TransactionTest
+9. Jalankan Automated Feature Test (Opsional):
+   php artisan test --filter TransactionTest
+10. lalu jalankan php artisan serve
