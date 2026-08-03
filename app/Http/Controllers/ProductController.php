@@ -10,7 +10,7 @@ class ProductController extends Controller
     {
         $query = Product::query();
 
-        // Fitur Pencarian Web (Wajib di soal)
+        // Search
         if ($request->has('search')) {
             $search = $request->search;
             $query->where('kode_produk', 'like', "%{$search}%")
