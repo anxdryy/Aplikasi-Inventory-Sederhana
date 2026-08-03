@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Product;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +12,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        Product::create([
+            'kode_produk' => 'PRD-001',
+            'nama_produk' => 'Kaos Kaki Hitam Polos',
+            'satuan' => 'Lusin',
+            'stok' => 50,
+            'harga' => 120000,
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        Product::create([
+            'kode_produk' => 'PRD-002',
+            'nama_produk' => 'Kaos Kaki Sekolah Putih',
+            'satuan' => 'Lusin',
+            'stok' => 100,
+            'harga' => 100000,
+        ]);
+
+        Product::create([
+            'kode_produk' => 'PRD-003',
+            'nama_produk' => 'Kaos Kaki Sport Pendek',
+            'satuan' => 'Pcs',
+            'stok' => 20,
+            'harga' => 15000,
+        ]);
     }
 }
