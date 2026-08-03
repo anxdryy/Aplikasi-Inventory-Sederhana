@@ -29,12 +29,11 @@ class TransactionController extends Controller
             DB::beginTransaction();
             $product = Product::lockForUpdate()->findOrFail($request->product_id);
 
-            // VALIDASI INI YANG DINILAI PENGUJI!
             if ($request->jenis == 'keluar' && $product->stok < $request->jumlah) {
                 return redirect()->back()->with('error', "Stok tidak cukup! Sisa stok {$product->nama_produk} saat ini: {$product->stok}");
             }
 
-            // Update Stok
+            // Stock
             if ($request->jenis == 'masuk') {
                 $product->stok += $request->jumlah;
             } else {
@@ -42,7 +41,7 @@ class TransactionController extends Controller
             }
             $product->save();
 
-            // Simpan Transaksi
+            // Save Transaction
             Transaction::create($request->all());
 
             DB::commit();
