@@ -10,7 +10,6 @@ class ProductController extends Controller
     {
         $query = Product::query();
 
-        // Search
         if ($request->has('search')) {
             $search = $request->search;
             $query->where('kode_produk', 'like', "%{$search}%")
@@ -18,7 +17,9 @@ class ProductController extends Controller
         }
 
         $products = $query->latest()->get();
-        return view('products.index', compact('products'));
+        $lowStocks = Product::where('stok', '<=', 10)->get();
+
+        return view('products.index', compact('products', 'lowStocks'));
     }
 
     public function store(Request $request)
@@ -43,7 +44,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            'kode_produk' => 'required|unique:products,kode_produk,' . $product->id, // Abaikan unik untuk ID ini
+            'kode_produk' => 'required|unique:products,kode_produk,' . $product->id,
             'nama_produk' => 'required',
             'satuan' => 'required',
             'stok' => 'required|integer|min:0',
@@ -58,5 +59,11 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus!');
+    }
+
+    public function history(Product $product)
+    {
+        $transactions = $product->transactions()->latest()->get();
+        return view('products.history', compact('product', 'transactions'));
     }
 }
