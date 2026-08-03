@@ -27,12 +27,28 @@
     </div>
     <div class="card-body">
         <table class="table">
-            <thead><tr><th>Kode</th><th>Nama</th><th>Satuan</th><th>Stok</th><th>Harga</th></tr></thead>
+            <thead>
+                <tr>
+                    <th>Kode</th><th>Nama</th><th>Satuan</th><th>Stok</th><th>Harga</th><th>Aksi</th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach($products as $p)
-                <tr><td>{{ $p->kode_produk }}</td><td>{{ $p->nama_produk }}</td><td>{{ $p->satuan }}</td>
+                <tr>
+                    <td>{{ $p->kode_produk }}</td>
+                    <td>{{ $p->nama_produk }}</td>
+                    <td>{{ $p->satuan }}</td>
                     <td><span class="badge {{ $p->stok < 10 ? 'bg-danger' : 'bg-success' }}">{{ $p->stok }}</span></td>
-                    <td>Rp{{ number_format($p->harga) }}</td></tr>
+                    <td>Rp{{ number_format($p->harga) }}</td>
+                    <td>
+                        <form action="{{ route('products.destroy', $p->id) }}" method="POST" class="d-inline">
+                            <a href="{{ route('products.edit', $p->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus produk ini?')">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>

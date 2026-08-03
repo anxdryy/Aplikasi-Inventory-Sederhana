@@ -34,4 +34,29 @@ class ProductController extends Controller
         Product::create($request->all());
         return redirect()->route('products.index')->with('success', 'Produk ditambahkan!');
     }
+
+    public function edit(Product $product)
+    {
+        return view('products.edit', compact('product'));
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'kode_produk' => 'required|unique:products,kode_produk,' . $product->id, // Abaikan unik untuk ID ini
+            'nama_produk' => 'required',
+            'satuan' => 'required',
+            'stok' => 'required|integer|min:0',
+            'harga' => 'required|integer|min:0'
+        ]);
+
+        $product->update($request->all());
+        return redirect()->route('products.index')->with('success', 'Produk berhasil diupdate!');
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return redirect()->route('products.index')->with('success', 'Produk berhasil dihapus!');
+    }
 }

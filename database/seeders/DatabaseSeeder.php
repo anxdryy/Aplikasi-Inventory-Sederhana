@@ -19,21 +19,5 @@ class DatabaseSeeder extends Seeder
             'stok' => 50,
             'harga' => 120000,
         ]);
-
-        Product::create([
-            'kode_produk' => 'PRD-002',
-            'nama_produk' => 'Kaos Kaki Sekolah Putih',
-            'satuan' => 'Lusin',
-            'stok' => 100,
-            'harga' => 100000,
-        ]);
-
-        Product::create([
-            'kode_produk' => 'PRD-003',
-            'nama_produk' => 'Kaos Kaki Sport Pendek',
-            'satuan' => 'Pcs',
-            'stok' => 20,
-            'harga' => 15000,
-        ]);
     }
 }
